@@ -20,7 +20,7 @@ export default function RootLayout({
   return (
     <html suppressHydrationWarning lang="en">
       <body className={inter.className}>
-        <Toaster position="top-center" />
+        <Toaster position="bottom-center" />
         <ModalProviders />
         {children}
       </body>
