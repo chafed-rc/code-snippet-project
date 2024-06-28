@@ -16,7 +16,7 @@ This project is developed as part of a school project to build an application th
 
 ## ✨ Features
 
-- **🔒 User Authentication**: Secure login and registration functionalities using Supabase.
+- **🔒 User Authentication**: Secure login and registration functionalities using our own custom hooks.
 - **💾 Store and Share Code Snippets**: Users can create, store, and share their code snippets.
 - **📱 Responsive Design**: A mobile-first design approach to ensure the application works on all devices.
 - **🌙 Dark Theme**: A visually appealing dark theme for better user experience.
