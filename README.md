@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# 🎓 Codebase
 
-## Getting Started
+## 📚 Introduction
 
-First, run the development server:
+This project is developed as part of a school project to build an application that revolves around a database and makes use of SQL queries and other database management functionalities. The application, **Codebase**, allows users to store and share code snippets, providing a robust platform for managing and accessing their code.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ Tools and Technologies
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Next.js**: A React framework used for building the frontend of the application.
+- **TypeScript**: A strongly typed programming language that builds on JavaScript, providing better tooling at any scale.
+- **Tailwind CSS**: A utility-first CSS framework for rapidly building custom user interfaces.
+- **Zustand**: A small, fast, and scalable bearbones state-management solution for React.
+- **shadcn/ui**: A UI component library used to create consistent and reusable components.
+- **PostgreSQL**: An open-source relational database management system used to handle data storage and management.
+- **Express.js**: A web application framework for Node.js, used to build the backend API.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## ✨ Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **🔒 User Authentication**: Secure login and registration functionalities using Supabase.
+- **💾 Store and Share Code Snippets**: Users can create, store, and share their code snippets.
+- **📱 Responsive Design**: A mobile-first design approach to ensure the application works on all devices.
+- **🌙 Dark Theme**: A visually appealing dark theme for better user experience.
 
-## Learn More
+## 🚀 Usage
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+The application is designed to be a platform where users can efficiently manage and share their code snippets. It integrates various tools and technologies to provide a seamless user experience and robust backend support for data management.
