@@ -18,7 +18,7 @@ import {
     const { logout } = useAuth();
     return (
       <DropdownMenu>
-        <DropdownMenuTrigger className="flex items-center justify-center w-10 h-10 bg-white text-black text-xl font-semibold rounded-full">
+        <DropdownMenuTrigger className="flex items-center justify-center w-8 h-8 bg-white text-black text-lg font-semibold rounded-full">
           <Avatar className="flex items-center justify-center">{user?.username[0].toUpperCase()}</Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">

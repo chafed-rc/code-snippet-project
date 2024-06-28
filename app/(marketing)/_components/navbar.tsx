@@ -33,10 +33,10 @@ export const Navbar = () => {
         <Spinner />
       ) : isLoggedIn ? (
         <div className='flex flex-row gap-2'>
-          <UserButton user={user} />
-          <Button asChild variant="ghost" className='hover:bg-rose-500 hover:text-white transition-all ease-in-out duration-200'>
+          <Button asChild variant="ghost" className='hover:bg-transparent hover:text-white transition-all ease-in-out duration-200'>
             <Link href="/snippets">Enter Codebase</Link>
           </Button>
+          <UserButton user={user} />
         </div>
       ) : (
         <Button onClick={loginModal.onOpen} className="bg-rose-500 hover:bg-rose-600 font-semibold">
