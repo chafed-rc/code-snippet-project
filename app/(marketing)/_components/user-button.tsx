@@ -21,7 +21,7 @@ import {
         <DropdownMenuTrigger className="flex items-center justify-center w-8 h-8 bg-white text-black text-lg font-semibold rounded-full">
           <Avatar className="flex items-center justify-center">{user?.username[0].toUpperCase()}</Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-56">
+        <DropdownMenuContent className="w-56 mr-6">
           <DropdownMenuLabel className="px-4 py-2">
             <div className="text-sm font-medium">{user?.username}</div>
             <div className="text-xs text-gray-500">{user?.email}</div>
