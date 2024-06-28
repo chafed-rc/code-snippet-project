@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type User = {
+export type User = {
   username: string;
-  // Add other user properties as needed
+  email: string;
 };
 
 type AuthStore = {

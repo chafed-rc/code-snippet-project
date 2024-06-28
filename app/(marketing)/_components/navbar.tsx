@@ -5,8 +5,10 @@ import { useLogin } from '@/hooks/use-login';
 import { Button } from '@/components/ui/button';
 import { Spinner } from '@/components/spinner';
 import Link from 'next/link';
+import { UserButton } from './user-button';
 
 export const Navbar = () => {
+
   const { isLoggedIn, user, logout, loading, setLoading } = useAuth();
   const loginModal = useLogin();
 
@@ -30,9 +32,12 @@ export const Navbar = () => {
       {loading ? (
         <Spinner />
       ) : isLoggedIn ? (
-        <Button asChild variant="ghost" className='hover:bg-rose-500 hover:text-white transition-all ease-in-out duration-200'>
-          <Link href="/codebase">Enter Codebase</Link>
-        </Button>
+        <div className='flex flex-row gap-2'>
+          <UserButton user={user} />
+          <Button asChild variant="ghost" className='hover:bg-rose-500 hover:text-white transition-all ease-in-out duration-200'>
+            <Link href="/codebase">Enter Codebase</Link>
+          </Button>
+        </div>
       ) : (
         <Button onClick={loginModal.onOpen} className="bg-rose-500 hover:bg-rose-600 font-semibold">
           Login
