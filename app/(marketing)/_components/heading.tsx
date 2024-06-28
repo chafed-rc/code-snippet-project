@@ -30,7 +30,7 @@ export const Heading = () => {
     const handleButtonClick = () => {
         if (isLoggedIn && user) {
             // Navigate to codebase
-            router.push('/codebase');
+            router.push('/snippets');
         } else {
             signup.onOpen();
         }

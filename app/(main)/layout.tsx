@@ -15,7 +15,7 @@ const MainLayout = ({
     if(loading) {
         return (
             <div className="h-full flex items-center justify-center">
-                <Spinner size={'sm'}/>
+                <Spinner size={'lg'}/>
             </div>
         )
     }
@@ -32,3 +32,5 @@ const MainLayout = ({
         </div>
     )
 }
+
+export default MainLayout;

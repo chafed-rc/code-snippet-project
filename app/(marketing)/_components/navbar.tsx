@@ -35,7 +35,7 @@ export const Navbar = () => {
         <div className='flex flex-row gap-2'>
           <UserButton user={user} />
           <Button asChild variant="ghost" className='hover:bg-rose-500 hover:text-white transition-all ease-in-out duration-200'>
-            <Link href="/codebase">Enter Codebase</Link>
+            <Link href="/snippets">Enter Codebase</Link>
           </Button>
         </div>
       ) : (
