@@ -1,12 +1,25 @@
 'use client'
 
-import { ChevronsLeft, MenuIcon } from "lucide-react"
+import { ChevronsLeft, MenuIcon, PlusCircle, Search } from "lucide-react"
 import { ElementRef, useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { UserItem } from "./user-item";
+import { useAuth } from "@/hooks/use-auth";
+import { Item } from "./item";
+import { useSearch } from "@/hooks/use-search";
+import { SnippetList } from "./snippet-list";
+import { Trash } from "lucide-react";
+
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { TrashBox } from "./trash-box";
 
 export const Navigation = () => {
+
+    const {user} = useAuth();
+    const search = useSearch();
+
     const pathname = usePathname();
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -97,6 +110,22 @@ export const Navigation = () => {
                 )}
                 >
                     <ChevronsLeft className="h-6 w-6" />
+                </div>
+                <div>
+                    <UserItem user={user} />
+                    <Item label="Search" icon={Search} isSearched onClick={(search.onOpen)} />
+                    <Item onClick={() => {}} label="New Snippet" icon={PlusCircle} />
+                </div>
+                <div className="mt-4">
+                    <SnippetList />
+                    <Popover>
+                        <PopoverTrigger className="w-full mt-4">
+                            <Item label="Trash" icon={Trash} />
+                        </PopoverTrigger>
+                        <PopoverContent className="p-0 w-72" side={isMobile ? "bottom" : "right"}>
+                            <TrashBox />
+                        </PopoverContent>
+                    </Popover>
                 </div>
                 <div
                     onMouseDown={handleMouseDown}

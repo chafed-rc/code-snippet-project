@@ -35,11 +35,18 @@ export const LoginModal = () => {
 
       const data = await response.json();
 
+      console.log("Received token:", data.token); 
+      localStorage.setItem('token', data.token)
+
       if (!response.ok) {
         throw new Error(data.error || "Login failed");
       }
 
-      login(data.user, data.token);
+      login({ 
+        id: data.user.id, 
+        username: data.user.username, 
+        email: data.user.email 
+      }, data.token);
       toast.success("Logged in successfully");
       loginModal.onClose();
     } catch (error: any) {
