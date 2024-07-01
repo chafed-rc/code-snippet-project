@@ -43,7 +43,7 @@ export const LoginModal = () => {
       }
 
       login({ 
-        id: data.user.id, 
+        userid: data.user.userid, 
         username: data.user.username, 
         email: data.user.email 
       }, data.token);
