@@ -19,7 +19,7 @@ interface ItemProps {
     level?: number;
     onExpand?: () => void;
     label: string;
-    onClick?: () => void;
+    onClick?: (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
     icon: LucideIcon;
 }
 
@@ -28,22 +28,7 @@ export const Item = ({ id, label, onClick, icon: Icon, active, snippetIcon, isSe
     const router = useRouter();
     const { archiveSnippet } = useSnippets();
 
-
-    const onCreate = (
-        event: React.MouseEvent<HTMLDivElement, MouseEvent>
-    ) => {
-        event.stopPropagation();
-        if(!id) return;
-        // Implement your snippet creation logic here
-        // For example:
-        // const promise = createSnippet({ title: "Untitled", parentId: id });
-        toast.promise(promise, {
-            loading: "Creating snippet...",
-            success: "Snippet created",
-            error: "Failed to create snippet"
-        });
-    }
-
+      
     const onArchive = async (
         event: React.MouseEvent<HTMLDivElement, MouseEvent>
     ) => {
@@ -57,6 +42,7 @@ export const Item = ({ id, label, onClick, icon: Icon, active, snippetIcon, isSe
             console.error("Failed to archive snippet:", error);
             toast.error("Failed to move snippet to trash");
         }
+        router.push("/snippets");
     };
 
     const ChevronIcon = expanded ? ChevronDown : ChevronRight;

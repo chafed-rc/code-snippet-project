@@ -7,6 +7,7 @@ import { dracula } from '@uiw/codemirror-theme-dracula';
 import { tsxLanguage, jsxLanguage } from "@codemirror/lang-javascript";
 import { Snippet } from '@/hooks/use-snippets';
 import { toast } from 'sonner';
+import { Plus } from 'lucide-react';
 
 interface SnippetPageProps {
   params: {
@@ -19,6 +20,7 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
   const [snippet, setSnippet] = useState<Snippet | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [newTag, setNewTag] = useState('');
 
   useEffect(() => {
     const fetchSnippet = async () => {
@@ -43,34 +45,69 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
     }
   }, [snippets, params.snippetId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
-  if (!snippet) return <p>No snippet found</p>;
-
   const handleSave = async () => {
     try {
-      await updateSnippet(snippet.id, { content: snippet.content });
-      toast.success('Snippet saved successfully');
+      if (snippet) {
+        await updateSnippet(snippet.id, { content: snippet.content, tags: snippet.tags });
+        toast.success('Snippet saved successfully');
+      }
     } catch (err) {
       console.error('Failed to save snippet:', err);
       toast.error('Failed to save snippet');
     }
   };
 
+  const handleAddTag = () => {
+    if (newTag.trim() && snippet) {
+      setSnippet(prev => prev ? {...prev, tags: [...prev.tags, newTag.trim()]} : null);
+      setNewTag('');
+    }
+  };
+
+  if (loading) return <p className=''>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+  if (!snippet) return <p className='flex items-center justify-center text-center text-4xl font-bold text-white'>{`No snippet found :(`}</p>;
+
   return (
     <div className='mt-32'>
       <div className='md:max-w-3xl lg:max-w-4xl mx-auto p-2'>
         <h1 className='text-white text-4xl mb-4 font-semibold'>{snippet.title}</h1>
         <div className='flex justify-between items-center flex-wrap gap-2 mb-4'>
-          <div className='flex flex-row gap-2'>
-            {snippet.tags.map((tag, index) => (
-              <span
-                key={index}
-                className='bg-rose-500 text-white px-2 py-1 rounded text-sm font-medium'
+          <div className='flex flex-row gap-2 items-center'>
+            {snippet.tags.length > 0 ? (
+              snippet.tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className='bg-rose-500 text-white px-2 py-1 rounded text-sm font-medium'
+                >
+                  {tag.toUpperCase()}
+                </span>
+              ))
+            ) : (
+              <button
+                onClick={() => setNewTag('New Tag')}
+                className='bg-rose-500 text-white px-2 py-1 rounded-full text-sm font-medium flex items-center'
               >
-                {tag.toUpperCase()}
-              </span>
-            ))}
+                <Plus size={16} className="mr-1" /> Add Tag
+              </button>
+            )}
+            {newTag && (
+              <div className='flex items-center'>
+                <input
+                  type="text"
+                  value={newTag}
+                  onChange={(e) => setNewTag(e.target.value)}
+                  className='bg-gray-700 text-white px-2 py-1 rounded-l text-sm'
+                  placeholder="Tag name"
+                />
+                <button
+                  onClick={handleAddTag}
+                  className='bg-rose-500 text-white px-2 py-1 rounded-r text-sm font-medium'
+                >
+                  Add
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className='bg-gray-800 rounded overflow-hidden shadow-lg'>

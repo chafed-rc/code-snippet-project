@@ -12,15 +12,13 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { useSearch } from "@/hooks/use-search";
-import { useAuth } from "@/hooks/use-auth"; // Adjust the import path as necessary
-import { Snippet } from "@/types/snippet"; // Assuming you have a Snippet type defined
-
-import { useSnippets } from "@/hooks/use-snippets"; // Adjust the import path as necessary
+import { useAuth } from "@/hooks/use-auth";
+import { Snippet, useSnippets } from "@/hooks/use-snippets";
 
 export const SearchCommand = () => {
   const { user } = useAuth();
   const router = useRouter();
-  const snippets = useSnippets(); // This should fetch your snippets from PostgreSQL
+  const { snippets } = useSnippets(); // Destructure snippets from the object
   const [isMounted, setIsMounted] = useState(false);
   const toggle = useSearch((store) => store.toggle);
   const isOpen = useSearch((store) => store.isOpen);
@@ -56,18 +54,14 @@ export const SearchCommand = () => {
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup heading="Snippets">
-          {snippets?.map((snippet: Snippet) => (
+          {snippets.map((snippet: Snippet) => (
             <CommandItem
               key={snippet.id}
               value={`${snippet.id}`}
               title={snippet.title}
               onSelect={() => onSelect(snippet.id)}
             >
-              {snippet.icon ? (
-                <p className="mr-2 text-[18px]">{snippet.icon}</p>
-              ) : (
-                <File className="mr-2 h-4 w-4" />
-              )}
+              <File className="mr-2 h-4 w-4" />
               <span>{snippet.title}</span>
             </CommandItem>
           ))}

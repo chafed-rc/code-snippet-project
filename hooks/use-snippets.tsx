@@ -233,5 +233,34 @@ export function useSnippets() {
     }
   }, [token, user]);
 
-  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet };
+  const createSnippet = useCallback(async (newSnippet: Omit<Snippet, 'id' | 'is_archived' | 'is_published'>) => {
+    if (!user || !token) return;
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/snippets`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newSnippet),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create snippet');
+      }
+
+      const createdSnippet = await response.json();
+
+      // Update the local state
+      setSnippets((prevSnippets) => [createdSnippet, ...prevSnippets]);
+
+      return createdSnippet;
+    } catch (error) {
+      console.error('Error creating snippet:', error);
+      throw error;
+    }
+  }, [token, user]);
+
+  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet, createSnippet };
 }

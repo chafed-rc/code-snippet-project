@@ -11,17 +11,22 @@ import { Item } from "./item";
 import { useSearch } from "@/hooks/use-search";
 import { SnippetList } from "./snippet-list";
 import { Trash } from "lucide-react";
+import { toast } from "sonner";
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { TrashBox } from "./trash-box";
 import { Navbar } from "./navbar";
+import { useRouter } from "next/navigation";
+import { useSnippets } from "@/hooks/use-snippets";
 
 export const Navigation = () => {
 
     const {user} = useAuth();
     const search = useSearch();
     const params = useParams();
+    const router = useRouter();
 
+    const { createSnippet } = useSnippets();
     const pathname = usePathname();
     const isMobile = useMediaQuery('(max-width: 768px)');
 
@@ -102,6 +107,25 @@ export const Navigation = () => {
         }
     }
 
+    const onCreate = async (
+        event: React.MouseEvent<HTMLDivElement, MouseEvent>
+    ) => {
+        event.stopPropagation();
+        try {
+            const newSnippet = await createSnippet({
+                title: "Untitled",
+                content: "// Type your snippet here",
+                language: "javascript", // You might want to set a default language or allow user to choose
+                tags: []
+            });
+            toast.success("New snippet created");
+            router.push(`/snippets/${newSnippet.id}`);
+        } catch (error) {
+            console.error("Failed to create snippet:", error);
+            toast.error("Failed to create snippet");
+        }
+    }
+
     return (
         <>    
             <aside ref={sidebarRef} className={cn(
@@ -120,7 +144,7 @@ export const Navigation = () => {
                 <div>
                     <UserItem user={user} />
                     <Item label="Search" icon={Search} isSearched onClick={(search.onOpen)} />
-                    <Item onClick={() => {}} label="New Snippet" icon={PlusCircle} />
+                    <Item onClick={onCreate} label="New Snippet" icon={PlusCircle} />
                 </div>
                 <div className="mt-4">
                     <SnippetList />
