@@ -7,8 +7,8 @@ export interface Snippet {
   tags: string[];
   content: string;
   language: string;
-  is_archived: boolean;
-  is_published: boolean;
+  isArchived: boolean;
+  isPublished: boolean;
 }
 
 export function useSnippets() {

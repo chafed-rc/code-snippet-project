@@ -4,6 +4,8 @@ import { useParams } from "next/navigation";
 import { Globe, MenuIcon } from "lucide-react";
 import { useGetSnippetById } from "@/hooks/use-get-by-Id";
 import { Title } from "./title";
+import { Publish } from "./publish";
+import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
   isCollapsed: boolean;
@@ -42,8 +44,10 @@ export const Navbar = ({
         <div className="flex items-center justify-between w-full">
           <Title initialData={snippet} />
           <div className="flex items-center gap-x-2">
-            <p className="font-medium">{snippet.language}</p>
-            <Globe className="h-6 w-6 text-rose-500 cursor-pointer"/>
+            <Publish initialData={{id: snippet.id, isPublished: snippet.is_published}}/> 
+            <Button size={'sm'} variant={'ghost'}>
+                    {snippet.language.toUpperCase()}
+            </Button>
           </div>
         </div>
       </nav>
