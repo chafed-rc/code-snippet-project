@@ -22,7 +22,7 @@ export const useAuth = create<AuthStore>()(
   persist(
     (set, get) => ({
       isLoggedIn: false,
-      loading: true, // Initially false to prevent infinite loading
+      loading: true, 
       user: null,
       token: null,
       login: (user, token) =>
@@ -30,12 +30,10 @@ export const useAuth = create<AuthStore>()(
       logout: () =>
         set({ isLoggedIn: false, user: null, token: null, loading: false }),
       setLoading: (loading) => set({ loading }),
-      // Effect to handle the initial loading state
       checkAuth: () => {
         set({ loading: true });
         const storedState = get().token;
         if (storedState) {
-          // Simulate a delay for checking authentication
           setTimeout(() => {
             set({ loading: false, isLoggedIn: true });
           }, 1000);
@@ -45,10 +43,9 @@ export const useAuth = create<AuthStore>()(
       },
     }),
     {
-      name: "auth-storage", // name of the item in the storage (must be unique)
+      name: "auth-storage",
     },
   ),
 );
 
-// Call checkAuth to handle the initial loading state
 useAuth.getState().checkAuth();
