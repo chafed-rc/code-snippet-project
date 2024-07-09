@@ -8,7 +8,6 @@ import { tsxLanguage, jsxLanguage } from "@codemirror/lang-javascript";
 import { Snippet } from '@/hooks/use-snippets';
 import { toast } from 'sonner';
 import { Plus } from 'lucide-react';
-import { Input } from '@/components/ui/input';
 
 interface SnippetPageProps {
   params: {
@@ -46,27 +45,10 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
     }
   }, [snippets, params.snippetId]);
 
-  const handleSave = async () => {
-    try {
-      if (snippet) {
-        await updateSnippet(snippet.id, { content: snippet.content, tags: snippet.tags });
-        toast.success('Snippet saved successfully');
-      }
-    } catch (err) {
-      console.error('Failed to save snippet:', err);
-      toast.error('Failed to save snippet');
-    }
-  };
 
-  const handleAddTag = () => {
-    if (newTag.trim() && snippet) {
-      setSnippet(prev => prev ? {...prev, tags: [...prev.tags, newTag.trim()]} : null);
-      setNewTag('');
-    }
-  };
 
   if (loading) return <p className=''>Loading...</p>;
-  if (error) return <p>Error: {error}</p>;
+  if (error) return <p className='text-white text-center pt-40 font-semibold text-3xl'>{`Error: ${error} :(`}</p>;
   if (!snippet) return <p className='flex items-center justify-center text-center text-4xl font-bold text-white'>{`No snippet found :(`}</p>;
 
   return (
@@ -75,7 +57,7 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
         <h1 className='text-white text-4xl mb-4 font-semibold'>{snippet.title}</h1>
         <div className='flex justify-between items-center flex-wrap gap-2 mb-4'>
           <div className='flex flex-row gap-2 items-center'>
-            {snippet.tags.length > 0 ? (
+            {(
               snippet.tags.map((tag, index) => (
                 <span
                   key={index}
@@ -84,31 +66,6 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
                   {tag.toUpperCase()}
                 </span>
               ))
-            ) : (
-              <button
-                onClick={() => setNewTag('New Tag')}
-                className='bg-rose-500 text-white px-2 py-1 rounded text-sm font-medium flex items-center'
-              >
-                <Plus size={16} className="mr-1" /> Add Tag
-              </button>
-            )}
-            {newTag && (
-              <div className='flex items-center'>
-                <Input
-                  type="text"
-                  value={newTag}
-                  onChange={(e) => setNewTag(e.target.value)}
-                  className='bg-gray-700 text-white px-2 py-1 rounded-l text-sm outline-none'
-                  placeholder="Tag name"
-                  required
-                />
-                <button
-                  onClick={handleAddTag}
-                  className='bg-rose-500 text-white px-2 py-1 rounded-r text-sm font-medium'
-                >
-                  Add
-                </button>
-              </div>
             )}
           </div>
         </div>
@@ -125,18 +82,10 @@ const SnippetDetailComponent = ({ params }: SnippetPageProps) => {
             value={snippet.content}
             height='400px'
             className='rounded-b-lg'
-            editable={true}
+            editable={false}
             extensions={[tsxLanguage, jsxLanguage]}
             onChange={(value) => setSnippet(prev => prev ? {...prev, content: value} : null)}
           />
-        </div>
-        <div>
-          <button 
-            onClick={handleSave}
-            className='bg-rose-500 text-white px-4 py-2 mt-4 rounded font-semibold hover:bg-rose-600 hover:scale-105 active:scale-95 transition-all ease-in-out duration-200'
-          >
-            Save Snippet
-          </button>
         </div>
       </div>
     </div>

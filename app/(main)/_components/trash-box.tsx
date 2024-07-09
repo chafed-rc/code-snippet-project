@@ -37,6 +37,7 @@ export const TrashBox = () => {
             success: "Restored",
             error: "Failed to restore",
         });
+         router.push(`/snippets/${snippetId}`);
     }
     
     const onRemove = async (snippetId: number) => {
@@ -45,9 +46,7 @@ export const TrashBox = () => {
             success: "Snippet deleted",
             error: "Failed to delete",
         });
-        if (params.id === snippetId.toString()) {
-            router.push("/snippets");
-        }
+        router.push("/snippets");
     } 
 
     if (snippets === undefined) {

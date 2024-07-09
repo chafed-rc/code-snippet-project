@@ -21,7 +21,7 @@ export const Navbar = ({
 
   if (loading) {
     return (
-      <nav className="bg-background dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center justify-between">
+      <nav className=" dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center justify-between">
       <Title.Skeleton />
   </nav>
     )
@@ -44,7 +44,7 @@ export const Navbar = ({
         <div className="flex items-center justify-between w-full">
           <Title initialData={snippet} />
           <div className="flex items-center gap-x-2">
-            <Publish initialData={{id: snippet.id, isPublished: snippet.is_published}}/> 
+            <Publish initialData={{id: snippet.id, is_published: snippet.is_published}}/> 
             <Button size={'sm'} variant={'ghost'}>
                     {snippet.language.toUpperCase()}
             </Button>

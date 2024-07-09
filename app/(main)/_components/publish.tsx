@@ -15,7 +15,7 @@ import { useSnippets } from "@/hooks/use-snippets"
 interface PublishProps {
     initialData: {
         id: number;
-        isPublished: boolean;
+        is_published: boolean;
     }
 }
 
@@ -32,7 +32,7 @@ export const Publish = ({initialData}: PublishProps) => {
     const onPublish = () => {
         setIsSubmitting(true);
         const promise = updateSnippet(initialData.id, {
-            isPublished: true
+            is_published: true
         })
             .finally(() => setIsSubmitting(false))
         toast.promise(promise, {
@@ -45,7 +45,7 @@ export const Publish = ({initialData}: PublishProps) => {
     const onUnpublish = () => {
         setIsSubmitting(true);
         const promise = updateSnippet(initialData.id, {
-            isPublished: false
+            is_published: false
         })
             .finally(() => setIsSubmitting(false))
         toast.promise(promise, {
@@ -66,11 +66,11 @@ export const Publish = ({initialData}: PublishProps) => {
             <PopoverTrigger asChild>
                 <Button size={'sm'} variant={'ghost'}>
                     Publish
-                    {initialData.isPublished && <Globe className="h-4 w-4 ml-2 text-rose-500"/>}
+                    {initialData.is_published && <Globe className="h-4 w-4 ml-2 text-rose-500"/>}
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-72" align="end" alignOffset={8} forceMount>
-                {initialData.isPublished ? (
+                {initialData.is_published ? (
                     <div className="space-y-4">
                         <div className="flex items-center gap-x-2">
                             <Globe className="h-4 w-4 text-rose-500 animate-pulse"/>
