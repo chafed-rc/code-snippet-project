@@ -341,3 +341,27 @@ app.get("/api/marketplace", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+app.get("/api/users/:id", authenticateToken, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const userQuery = `
+      SELECT u.userid, u.username, u.email
+      FROM users u
+      INNER JOIN snippets s ON u.userid = s.user_id
+      WHERE s.id = $1
+      LIMIT 1
+    `;
+    const userResult = await pool.query(userQuery, [id]);
+
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    res.json(userResult.rows[0]);
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});

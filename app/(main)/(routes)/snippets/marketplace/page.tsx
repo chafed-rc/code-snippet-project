@@ -1,63 +1,10 @@
 'use client'
 
 import { useState, useEffect } from 'react';
-import { useSnippets, Snippet as SnippetType, MarketplaceSnippet } from '@/hooks/use-snippets';
+import { useSnippets, MarketplaceSnippet } from '@/hooks/use-snippets';
 import { useAuth } from '@/hooks/use-auth';
 import { toast } from 'sonner';
-
-const SnippetCard = ({ snippet, onAddToCollection }: { snippet: MarketplaceSnippet; onAddToCollection: (snippet: MarketplaceSnippet) => Promise<void> }) => {
-  const [isAdding, setIsAdding] = useState(false);
-
-  const handleAddToCollection = async () => {
-    setIsAdding(true);
-    try {
-      await onAddToCollection(snippet);
-    } catch (error) {
-      console.error('Error adding to collection:', error);
-    } finally {
-      setIsAdding(false);
-    }
-  };
-
-  return (
-    <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col h-full">
-      <div className="p-1 bg-gray-700 flex items-center space-x-1">
-        <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-        <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-      </div>
-      <div className="p-4 sm:p-6 flex-grow flex flex-col">
-        <h2 className="text-white text-lg sm:text-xl font-semibold mb-2 sm:mb-3 truncate">{snippet.title}</h2>
-        <div className="flex flex-wrap gap-2 mb-3 sm:mb-4">
-          {snippet.tags.map((tag: string, index: number) => (
-            <span key={index} className="bg-rose-500 text-white px-2 py-1 rounded-full text-xs font-medium">
-              {tag.toUpperCase()}
-            </span>
-          ))}
-        </div>
-        <p className="text-gray-400 text-xs sm:text-sm mb-3 sm:mb-4 flex items-center">
-          <span className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-blue-500 mr-2"></span>
-          {snippet.language}
-        </p>
-        <div className="bg-gray-900 p-3 sm:p-4 rounded-lg overflow-hidden mb-4 flex-grow">
-          <pre className="text-green-400 text-xs sm:text-sm overflow-x-auto whitespace-pre-wrap h-full">
-            <code>
-              {snippet.content.slice(0, 150)}
-              {snippet.content.length > 150 && '...'}
-            </code>
-          </pre>
-        </div>
-        <button
-          onClick={handleAddToCollection}
-          disabled={isAdding}
-          className="w-full bg-rose-500 text-white px-4 py-2 rounded font-semibold hover:bg-rose-600 transition-colors duration-300 disabled:opacity-50 text-sm sm:text-base"
-        >
-          {isAdding ? 'Adding...' : 'Add to My Collection'}
-        </button>
-      </div>
-    </div>
-  );
-};
+import SnippetCard from './snippet-card';
 
 const MarketplacePage = () => {
   const [marketplaceSnippets, setMarketplaceSnippets] = useState<MarketplaceSnippet[]>([]);

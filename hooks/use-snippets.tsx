@@ -11,6 +11,11 @@ export interface Snippet {
   is_published: boolean;
 }
 
+export interface User {
+  id: number;
+  username: string;
+}
+
 export interface MarketplaceSnippet {
   id: number;
   title: string;
@@ -299,5 +304,29 @@ export function useSnippets() {
     }
   }, [token]);
 
-  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet, createSnippet, getMarketplace };
+  const getUserById = useCallback(async (userId: number): Promise<User> => {
+    if (!token || !user) {
+      throw new Error("No token or user available");
+    }
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch user');
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching user:', error);
+      throw error;
+    }
+  }, [token, user]);
+
+  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet, createSnippet, getMarketplace, getUserById };
 }

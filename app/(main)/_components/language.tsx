@@ -3,28 +3,27 @@
 import { useState, useRef } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
 import { useSnippets } from "@/hooks/use-snippets"
 
-interface TitleProps {
+interface LanguageProps {
     initialData: {
         id: number;
-        title: string;
+        language: string;
     };
     className?: string;
 }
 
-export const Title = ({
+export const Language = ({
     initialData,
     className,
-}: TitleProps) => {
+}: LanguageProps) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const { updateSnippet } = useSnippets();
-    const [title, setTitle] = useState(initialData.title || "Untitled");
+    const [language, setLanguage] = useState(initialData.language || "N/A");
     const [isEditing, setIsEditing] = useState(false);
 
     const enableInput = () => {
-        setTitle(initialData.title);
+        setLanguage(initialData.language);
         setIsEditing(true);
         setTimeout(() => {
             inputRef.current?.focus();
@@ -36,19 +35,19 @@ export const Title = ({
         setIsEditing(false);
     };
 
-    const updateTitle = async (newTitle: string) => {
+    const updateLanguage = async (newLanguage: string) => {
         try {
-            await updateSnippet(initialData.id, { title: newTitle });
+            await updateSnippet(initialData.id, { language: newLanguage });
         } catch (error) {
-            console.error('Failed to update snippet title:', error);
+            console.error('Failed to update snippet language:', error);
             // Optionally, show an error message to the user
         }
     };
 
     const onChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-        const newTitle = event.target.value || "Untitled";
-        setTitle(newTitle);
-        await updateTitle(newTitle);
+        const newLanguage = event.target.value || "N/A";
+        setLanguage(newLanguage);
+        await updateLanguage(newLanguage);
     };
 
     const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,22 +64,14 @@ export const Title = ({
                     onBlur={disableInput}
                     onChange={onChange}
                     onKeyDown={onKeyDown}
-                    value={title}
+                    value={language.toUpperCase()}
                     className="h-7 px-2 focus-visible:ring-transparent"
                 />
             ) : (
-                <Button onClick={enableInput} variant="ghost" size="lg" className="font-normal h-auto p-1">
-                    <span className="truncate md:max-w-2xl max-w-[60px]">
-                        {title}
-                    </span>
+                <Button onClick={enableInput} variant="ghost" size="sm">
+                    {language.toUpperCase()}
                 </Button>
             )}
         </div>
-    );
-};
-
-Title.Skeleton = function TitleSkeleton() {
-    return (
-        <Skeleton className="h-9 w-16 rounded-md" />
     );
 };

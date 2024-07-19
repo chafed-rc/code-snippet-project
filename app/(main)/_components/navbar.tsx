@@ -5,6 +5,7 @@ import { Globe, MenuIcon } from "lucide-react";
 import { useGetSnippetById } from "@/hooks/use-get-by-Id";
 import { Title } from "./title";
 import { Publish } from "./publish";
+import { Language } from "./language";
 import { Button } from "@/components/ui/button";
 
 interface NavbarProps {
@@ -21,9 +22,9 @@ export const Navbar = ({
 
   if (loading) {
     return (
-      <nav className=" dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center justify-between">
-      <Title.Skeleton />
-  </nav>
+      <nav className="dark:bg-[#1f1f1f] px-3 py-2 w-full flex items-center justify-between">
+        <Title.Skeleton />
+      </nav>
     )
   }
 
@@ -45,9 +46,7 @@ export const Navbar = ({
           <Title initialData={snippet} />
           <div className="flex items-center gap-x-2">
             <Publish initialData={{id: snippet.id, is_published: snippet.is_published}}/> 
-            <Button size={'sm'} variant={'ghost'}>
-                    {snippet.language.toUpperCase()}
-            </Button>
+            <Language initialData={{id: snippet.id, language: snippet.language}} />
           </div>
         </div>
       </nav>
