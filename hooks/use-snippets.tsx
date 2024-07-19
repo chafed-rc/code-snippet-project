@@ -11,6 +11,14 @@ export interface Snippet {
   is_published: boolean;
 }
 
+export interface MarketplaceSnippet {
+  id: number;
+  title: string;
+  tags: string[];
+  content: string;
+  language: string;
+}
+
 export function useSnippets() {
   const [snippets, setSnippets] = useState<Snippet[]>([]);
   const { user, token } = useAuth();
@@ -262,5 +270,34 @@ export function useSnippets() {
     }
   }, [token, user]);
 
-  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet, createSnippet };
+  const getMarketplace = useCallback(async (): Promise<MarketplaceSnippet[]> => {
+    if (!token) {
+      throw new Error("No token available");
+    }
+  
+    try {
+      const response = await fetch(`http://localhost:5000/api/marketplace`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Response text:', errorText);
+        throw new Error(`Failed to fetch marketplace snippets: ${response.status} ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching marketplace snippets:', error);
+      throw error;
+    }
+  }, [token]);
+
+  return { snippets, fetchSnippets, restoreSnippet, removeSnippet, archiveSnippet, getSnippetById, updateSnippet, createSnippet, getMarketplace };
 }

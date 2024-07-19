@@ -1,6 +1,6 @@
 'use client'
 
-import { ChevronsLeft, MenuIcon, PlusCircle, Search } from "lucide-react"
+import { ChevronsLeft, MenuIcon, PlusCircle, Search, ShoppingBag } from "lucide-react"
 import { ElementRef, useRef, useState, useEffect } from "react";
 import { useMediaQuery } from "usehooks-ts";
 import { useParams, usePathname } from "next/navigation";
@@ -144,6 +144,7 @@ export const Navigation = () => {
                 <div>
                     <UserItem user={user} />
                     <Item label="Search" icon={Search} isSearched onClick={(search.onOpen)} />
+                    <Item label="Maketplace" icon={ShoppingBag} onClick={() => router.push('/snippets/marketplace')} />
                     <Item onClick={onCreate} label="New Snippet" icon={PlusCircle} />
                 </div>
                 <div className="mt-4">

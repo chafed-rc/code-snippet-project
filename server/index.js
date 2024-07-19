@@ -105,7 +105,7 @@ app.post("/api/signup", async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    const insertUserQuery = "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING id, username, email";
+    const insertUserQuery = "INSERT INTO users (username, email, password) VALUES ($1, $2, $3) RETURNING userid, username, email";
     const newUser = await pool.query(insertUserQuery, [username, email, hashedPassword]);
 
     res.status(201).json(newUser.rows[0]);
@@ -264,7 +264,6 @@ app.post("/api/snippets", authenticateToken, async (req, res) => {
 });
 
 // Update a snippet
-// Update a snippet
 app.put("/api/snippets/:id", authenticateToken, async (req, res) => {
   const { id } = req.params;
   const updates = req.body;
@@ -327,6 +326,18 @@ app.get("/api/snippets/:id", authenticateToken, async (req, res) => {
     res.json(snippetResult.rows[0]);
   } catch (error) {
     console.error("Error fetching snippet:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+
+});
+
+app.get("/api/marketplace", async (req, res) => {
+  try {
+    const marketplaceQuery = `SELECT * FROM public.marketplace_snippets`;
+    const marketplaceResult = await pool.query(marketplaceQuery);
+    res.json(marketplaceResult.rows);
+  } catch (error) {
+    console.error("Error fetching marketplace snippets:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
